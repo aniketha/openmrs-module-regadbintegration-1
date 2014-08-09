@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="OpenMRS RegaDB Integration : ">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>OpenMRS RegaDB Integration</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/aniketha/openmrs-module-regadbintegration-1">View on GitHub</a>
+
+          <h1 id="project_title">OpenMRS RegaDB Integration</h1>
+          <h2 id="project_tagline"></h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/aniketha/openmrs-module-regadbintegration-1/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/aniketha/openmrs-module-regadbintegration-1/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="introduction" class="anchor" href="#introduction"><span class="octicon octicon-link"></span></a>Introduction</h1>
+
+<p>The development of drug resistance is an inevitable consequence of long term treatment with antiretroviral drugs and many patients have virus extracted and genotyped to determine drug resistance profiles and decisions around ongoing treatment regimens. Drug resistance testing is standard of care in developed countries at treatment initiation and treatment failure and is becoming increasingly widely used in developing countries, generating requirements for inclusion of this data as part of the clinical record. Specialist algorithms are used to interpret the genotype and predict particular drug susceptibility/resistance. RegaDB is a specialist application that performs the genotypic prediction algorithms and presents the data. This module integrates OpenMRS and RegaDB. The clinical and laboratory data are exported from OpenMRS to RegaDB. RegaDB performs the analysis functions required to analyze the drug resistance. The clinicians can avail the drug resistance reports from OpenMRS.</p>
+
+<p>The two main function of this module are –</p>
+
+<p>1) Data Export
+2) Report Viewing.</p>
+
+<h2>
+<a name="user-manual" class="anchor" href="#user-manual"><span class="octicon octicon-link"></span></a>User manual</h2>
+
+<h3>
+<a name="adding-related-concepts-module-config" class="anchor" href="#adding-related-concepts-module-config"><span class="octicon octicon-link"></span></a>Adding Related Concepts (module config)</h3>
+
+<ul>
+<li>Now, after installing the RegaDB integration module, go to the Admin page of the module, and select "Add related concepts"</li>
+<li>The currently concepts which can be exported to RegaDB are HIV Viral Load and CD4 count</li>
+<li>Search for each of these concepts, add and save</li>
+</ul><h3>
+<a name="adding-related-concepts-observations" class="anchor" href="#adding-related-concepts-observations"><span class="octicon octicon-link"></span></a>Adding Related concepts (Observations)</h3>
+
+<ul>
+<li> Go to OpenMRS Admin Page</li>
+<li> Select Manage Observations under the Observations title</li>
+<li> Add an HIV Viral Load observation for a patient and save</li>
+<li> Add a CD4 count observation for a patient and save</li>
+</ul><h3>
+<a name="exporting-patient-to-regadb" class="anchor" href="#exporting-patient-to-regadb"><span class="octicon octicon-link"></span></a>Exporting Patient to RegaDB</h3>
+
+<ul>
+<li> On the OpenMRS Administration page, select find/create patient</li>
+<li> Search for the patient whose observations you have recently added</li>
+<li> You will see a RegaDB tab on the patient's dashboard</li>
+<li> Ensure the RegaDB installation instance is "xhost +" enabled</li>
+<li> Click Export Patient to export the patient to RegaDB</li>
+</ul><h3>
+<a name="regadb-patient-import" class="anchor" href="#regadb-patient-import"><span class="octicon octicon-link"></span></a>RegaDB Patient Import</h3>
+
+<ul>
+<li> Once a patient is exported to RegaDB, they can be viewed by the patients link</li>
+<li> To view the patient's viral load and cd4 count observations sent to RegaDB, click on measurements after clicking on the   patient</li>
+<li> You may edit the patient demographics etc in RegaDB but the patient will still be in sync with OpenMRS</li>
+</ul><h3>
+<a name="exporting-patients-in-bulk" class="anchor" href="#exporting-patients-in-bulk"><span class="octicon octicon-link"></span></a>Exporting patients in bulk</h3>
+
+<p>The administrator can export multiple patients at once from the “Export Patients” link. </p>
+
+<ul>
+<li>The export multiple patients page has two divisions.</li>
+<li>The first division is used to search for patients.</li>
+<li>Select the desired patients from this division.</li>
+<li>Click on the add patients button.</li>
+<li>This will add the selected patients to the division below.</li>
+<li>From here, the user can export few or all patients in the list.</li>
+<li>Select the patients in the second division click on the “export selected patients” button.</li>
+<li>A successful export gives a message saying “All Patients Exported Successfully”.</li>
+</ul><h3>
+<a name="scheduling" class="anchor" href="#scheduling"><span class="octicon octicon-link"></span></a>Scheduling</h3>
+
+<p>When the module is deployed it creates an OpenMRS scheduler task which by default runs every 10 minutes. The scheduler task checks periodically for data export. Data reaches scheduler in two scenarios –</p>
+
+<ul>
+<li><p>If the user clicks the export patient button on the patient dashboard and the RegaDB server is down this export job is added to the scheduler for a later export.</p></li>
+<li><p>All the new related observations for a patient existing in RegaDB are scheduled to for export by this scheduler task.</p></li>
+</ul><p>The administrator can start and stop the task from the “manage scheduler” page. </p>
+
+<p>The default time interval for the task is 10 minutes. The administrator can change this in the manage scheduler page.</p>
+
+<p><strong>Note: The task is not started when the module is deployed.</strong></p>
+
+<h3>
+<a name="report-viewing" class="anchor" href="#report-viewing"><span class="octicon octicon-link"></span></a>Report Viewing</h3>
+
+<ul>
+<li>Click on the “view patient report” button</li>
+<li>If this patient is existing on RegaDB and there exists a viral isolate (genomic data of the patient), then this displays a selection division</li>
+<li>Select the resistance algorithms on which the drug resistance report should be based on.</li>
+<li>And on clicking the generate report button.</li>
+<li>
+<p>The report is given as a download and is an rtf file.</p>
+
+<p>This report contains the algorithmic calculations of drug resistance and a chart which is a graphical display of the patient history.</p>
+</li>
+</ul><p>In case if the RegaDB server is down currently, it shows a message saying the server is not responding.</p>
+
+<p>In case this patient or its viral isolate does not exist on the RegaDB system then it shows an error message saying “cannot show patient report – patient or viral isolate doesn’t exist.”</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">OpenMRS RegaDB Integration maintained by <a href="https://github.com/aniketha">aniketha</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
